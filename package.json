@@ -35,7 +35,8 @@
     "engine.io": "~0.9.0",
     "crawler": "~0.2.5",
     "sqlite3": "~2.2.0",
-    "pg": "~2.11.1"
+    "pg": "~2.11.1",
+    "sequelize-sqlite": "^2.0.0-beta.2"
   },
   "devDependencies": {
     "mocha": "~1.17.1",

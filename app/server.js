@@ -1,4 +1,5 @@
 var express = require('express'),
+    EventEmitter = require('events').EventEmitter,
     app = express();
 
 app.use('/static', express.static(__dirname + '/public'));
@@ -10,22 +11,25 @@ app.use(express.csrf());
 app.use(express.json());
 app.use(express.urlencoded());
 
-// TODO: add client error handling (html page or json)
+//Set global event emitter
+app.set('emitter', new EventEmitter());
+
+//Database
+require('./database')(app);
+
+//App modules
+require('./components/books')(app);
+require('./components/authors')(app);
+require('./components/search')(app);
+require('./components/crawlers')(app);
 
 // TODO: add logging error
 
-app.get('/user/:id', function(req, res){
-  console.log(req.cookies);
-  res.send('userZ ' + req.params.id);
-});
+// TODO: add client error handling (html page or json)
 
 app.use(function(err, req, res, next){
   console.error(err.stack);
   res.send(500, 'Internal App Error!');
-});
-
-app.use(function(req, res){
-  res.send('Hello');
 });
 
 app.listen(5000);
