@@ -7,6 +7,7 @@ module.exports = function(app) {
     title: Sequelize.STRING
   });
 
+  BooksModel.create({ title: 'book name' });
   //BooksModel.drop();
   
   BooksModel.sync();
