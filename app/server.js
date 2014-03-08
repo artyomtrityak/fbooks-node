@@ -14,11 +14,11 @@ app.use(express.urlencoded());
 //Set global event emitter
 app.set('emitter', new EventEmitter());
 
-//Database
+//Database. Should be init before modules
 require('./database')(app);
 
 //App modules
-require('./components/books')(app);
+app.use('/api/books', require('./components/books')(app));
 require('./components/authors')(app);
 require('./components/search')(app);
 require('./components/crawlers')(app);

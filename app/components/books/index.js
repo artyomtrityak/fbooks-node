@@ -1,18 +1,22 @@
-var controller = require('./controller');
+var express = require('express'),
+  BooksModel = require('./model'),
+  controller = require('./controller'),
+  localApp = express();
 
 module.exports = function(app) {
-  var BooksModel = require('./model')(app);
-  var scope = {model: BooksModel};
+  var booksModel = BooksModel(app);
+  var scope = {model: booksModel};
 
-  app.get('/books', controller.get.bind(scope));
+  localApp.get('/', controller.get.bind(scope));
   // Add post ACL
-  app.post('/books', controller.create.bind(scope));
+  localApp.post('/', controller.create.bind(scope));
 
-  app.get('/books/:id', controller.getById.bind(scope));
+  localApp.get('/:id', controller.getById.bind(scope));
   // Add put ACL
-  app.put('/books/:id', controller.update.bind(scope));
+  localApp.put('/:id', controller.update.bind(scope));
   // Add delete ACL
-  app.delete('/books/:id', controller.delete.bind(scope));
+  localApp.delete('/:id', controller.delete.bind(scope));
 
   console.log('books module loaded');
+  return localApp;
 };
