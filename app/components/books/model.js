@@ -4,7 +4,14 @@ module.exports = function(app) {
   var Connection = app.get('DB_CONNECTION');
 
   var BooksModel = Connection.define('books', {
-    title: Sequelize.STRING
+    title: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Book name cannot be empty'
+        }
+      }
+    }
   });
 
   BooksModel.create({ title: 'book name' });

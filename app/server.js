@@ -2,12 +2,12 @@ var express = require('express'),
     EventEmitter = require('events').EventEmitter,
     app = express();
 
-app.use('/static', express.static(__dirname + '/public'));
+app.use('/static', express.static(__dirname + '/static'));
 app.use(express.logger());
 app.use(express.compress());
 app.use(express.cookieParser('some secret string'));
 app.use(express.cookieSession());
-app.use(express.csrf());
+//app.use(express.csrf());
 app.use(express.json());
 app.use(express.urlencoded());
 
