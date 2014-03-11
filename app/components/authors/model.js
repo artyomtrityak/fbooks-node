@@ -7,9 +7,12 @@ module.exports = function(app) {
     name: Sequelize.STRING
   });
 
+  //AuthorsModel.create({ name: 'author name' });
   //AuthorsModel.drop();
   
   AuthorsModel.sync();
+
+  app.set('MODEL_AUTHORS', AuthorsModel);
 
   return AuthorsModel;
 };

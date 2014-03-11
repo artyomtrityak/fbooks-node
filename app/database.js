@@ -10,6 +10,16 @@ connection.query("SELECT 1").success(function(myTableRows) {
 });
 
 
-module.exports = function(app) {
+module.exports.connect = function(app) {
   app.set('DB_CONNECTION', connection);
+};
+
+module.exports.relationships = function(app) {
+  BooksModel = app.get('MODEL_BOOKS');
+  AuthorsModel = app.get('MODEL_AUTHORS');
+
+  BooksModel.hasMany(AuthorsModel);
+  AuthorsModel.hasMany(BooksModel);
+
+  
 };

@@ -14,10 +14,11 @@ module.exports = function(app) {
     }
   });
 
-  BooksModel.create({ title: 'book name' });
+  //BooksModel.create({ title: 'book name' });
   //BooksModel.drop();
-  
   BooksModel.sync();
+
+  app.set('MODEL_BOOKS', BooksModel);
 
   return BooksModel;
 };

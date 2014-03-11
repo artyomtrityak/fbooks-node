@@ -1,7 +1,15 @@
 var express = require('express'),
     EventEmitter = require('events').EventEmitter,
-    app = express();
+    app = express(),
+    Database = require('./database'),
 
+    // Conponents
+    BooksComponent = require('./components/books'),
+    AuthorsComponent = require('./components/authors'),
+    SearchComponent = require('./components/search');
+    CrawlersComponent = require('./components/crawlers');
+
+// Express middlewares
 app.use('/static', express.static(__dirname + '/static'));
 app.use(express.logger());
 app.use(express.compress());
@@ -15,13 +23,17 @@ app.use(express.urlencoded());
 app.set('emitter', new EventEmitter());
 
 //Database. Should be init before modules
-require('./database')(app);
+Database.connect(app);
 
 //App modules
-app.use('/api/books', require('./components/books')(app));
-require('./components/authors')(app);
-require('./components/search')(app);
-require('./components/crawlers')(app);
+app.use('/api/books', BooksComponent(app));
+app.use('/api/authors', AuthorsComponent(app));
+SearchComponent(app);
+CrawlersComponent(app);
+
+// Make SQL relationships (one-to-one, many-to-many etc)
+// Should be after components initialzation
+Database.relationships(app);
 
 // TODO: add logging error
 
